@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forræder</title>
+</head>
+<body id="body" class="body" onload="initialize()">
+    <div class="randomSitat">
+        <p>
+            <h2 id="sitatArea" class="sitatText"></h2>
+        
+            <button onclick="nextQuote();">Neste</button>
+        </p>
+    </div>
+    <div class="slider">
+        <ul>
+            <li>
+                <img src="forræder.png">
+            </li>
+            <li>
+                <img src="forræder.png">
+            </li>
+            <li>
+                <img src="forræder.png">
+            </li>
+            <li>
+                <img src="forræder.png">
+            </li>
+        </ul>
+
+    </div> 
+    <div class="plot">
+        <h3 id="plotArea"> Trykk for å se plot</h3>
+        <button onclick="generatePlot();">Generer plot</button>
+    </div>
+</body>
+
+<script>
+    let quoteNumber = 0;
+    let plot = new Array();
+    let sitat = ["- Altså, hodet mitt bare jobber hele tida", "- Det brusa i kroppen når æ fant ut det", "- Magefølelsen min ligger i billigkroken", "- Jeg kriger med meg sjæl ass…"];
+    let verb = ["sykle", "spise", "gjette", "danse", "barbere", "betale", "drikke", "gråte", "lese", "skrive", "skyve", "svømme", "trekke"];
+    // initialiseringslogikk som kalles når siden lastes (Body.onload())
+    function initialize(){
+        console.log("lager array med sitater")
+    
+        plot[0] = "For å hente sølv må deltagerene [VERB] så [ADV] de kan. [NAVN] blir stemt ut av det [ADJ] rådet." 
+        plot[1] = "[NAVN] har funnet hint om hvem den [ADJ] foræderen er. De lojale deltakerne må [VERB] [ADV]." 
+        plot[2] = "[NAVN] har havnet på den [ADJ] dødslisten. For å redde hen må de andre [VERB] [ADV]." 
+
+        
+        
+        adverb = new Array();
+        adverb[0] = "stygt"
+        adverb[1] = "pent"
+        adverb[2] = "smart"
+        adverb[3] = "hardt"
+
+        navn = new Array();
+        navn[0] = "Sander"
+        navn[1] = "Jonas"
+        navn[2] = "Magnus"
+        navn[3] = "Emil"
+
+        adjektiv = new Array();
+        adjektiv[0] = "irriterende"
+        adjektiv[1] = "kule"
+        adjektiv[2] = "triste"
+        adjektiv[3] = "grove"
+
+        console.log("viser sitat 0 første når siden lastes")
+        document.getElementById("sitatArea").innerText = sitat[quoteNumber]
+
+        getBackground();
+    }
+
+    // Velger et random bilde som bakrunn
+    function getBackground(){
+        let randomBilde = new Array();
+        randomBilde[0] = "bilde1.jpg";
+        randomBilde[1] = "bilde2.jpg";
+        randomBilde[2] = "bilde3.png";
+        randomBilde[3] = "bilde4.jpg";
+        randomBilde[4] = "bilde5.jpg";
+        let number = Math.floor(Math.random()*randomBilde.length);
+
+        document.body.style.backgroundImage = 'url("'+randomBilde[number]+'")';
+    }
+
+    function getRandom(arrayToGetRandom){
+
+        return Math.floor(Math.random()*arrayToGetRandom.length);
+    }
+
+    function generatePlot(){
+        let navnNummer= Math.floor(Math.random()*navn.length);
+        let verbNummer = Math.floor(Math.random()*verb.length);
+        let adjNummer = Math.floor(Math.random()*adjektiv.length);
+        let advNummer = Math.floor(Math.random()*adverb.length);
+        let plotNummer = Math.floor(Math.random()*plot.length);
+        let plotTemplate = plot[plotNummer]
+        let randomPlot = plotTemplate.replace("[NAVN]", navn[navnNummer])
+        .replace("[VERB]", verb[verbNummer])
+        .replace("[ADV]", adverb[advNummer])
+        .replace("[ADJ]", adjektiv[adjNummer])
+
+        document.getElementById("plotArea").innerText = randomPlot
+
+    }
+
+    // funksjon som kalles når du trykker på neste-knappen (onClick-event)
+    function nextQuote(){
+        
+        console.log(quoteNumber);
+        console.log(sitat[quoteNumber]);
+        
+        if (quoteNumber == 4){
+            quoteNumber = 0;
+        }
+
+        document.getElementById("sitatArea").innerText = sitat[quoteNumber]
+        quoteNumber++;
+    }
+
+
+</script>
+<style>
+    .randomSitat{
+        background:rgb(111, 154, 168,0.8);
+        border: 3px;
+        width: 100%;
+        text-align: center;
+        border-style: solid;
+    }
+
+    .plot{
+        background:rgb(111, 154, 168,0.8);
+        border: 3px;
+        width: 100%;
+        border-style: solid;
+        position: fixed;
+        bottom: 0;
+        background-color: #fbeee0;
+        border: 2px solid #422800;
+        border-radius: 30px;
+        box-shadow: #422800 4px 4px 0 0;
+        color: #422800;
+        cursor: pointer;
+        display: inline-block;
+        font-weight: 600;
+        font-size: 18px;
+        padding: 0 18px;
+        line-height: 50px;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        
+    }
+    
+
+    button{
+        align-items: center;
+        appearance: none;
+        background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+        border: 0;
+        border-radius: 6px;
+        box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: inline-flex;
+        font-family: "JetBrains Mono",monospace;
+        height: 48px;
+        justify-content: center;
+        line-height: 1;
+        list-style: none;
+        overflow: hidden;
+        padding-left: 16px;
+        padding-right: 16px;
+        position: relative;
+        text-align: left;
+        text-decoration: none;
+        transition: box-shadow .15s,transform .15s;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        white-space: nowrap;
+        will-change: box-shadow,transform;
+        font-size: 18px;
+
+
+    }
+
+    body{
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+
+    .slider {
+        width: 2000px;
+        margin: auto;
+        overflow: visible;
+    }
+    .slider ul {
+        display: flex;
+        padding: 0;
+        animation: cambio 80s infinite linear;
+    }
+    .slider li {
+        padding:0 10px;
+        list-style: none;
+    }
+    .slider img {
+        max-width: fit-content !important;
+        height: auto !important;
+        size: 300px;
+    }
+    @keyframes cambio {
+        from {margin-left: 0%}
+        to {margin-left: -100%}
+    }
+    
+    button:focus {
+        box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+    }
+
+    button:hover {
+        box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+        transform: translateY(-2px);
+    }
+
+    button:active {
+        box-shadow: #3c4fe0 0 3px 7px inset;
+        transform: translateY(2px);
+    }
+
+
+</style>
+</html>
